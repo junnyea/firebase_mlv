@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "885684412939",
+    "firebase_url": "https://scandemo-17299.firebaseio.com",
+    "project_id": "scandemo-17299",
+    "storage_bucket": "scandemo-17299.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885684412939:android:14ea9d5982c8edc83a9d0e",
+        "android_client_info": {
+          "package_name": "com.u4gm.firebasescantextapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885684412939-6n8e1q4j7ofc25t5rce7835vsi7a0351.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2ZjyWsvQxVtpChW5Yrj7ecTZkO-XZ55k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885684412939-6n8e1q4j7ofc25t5rce7835vsi7a0351.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
