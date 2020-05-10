@@ -33,3 +33,5 @@ add in .zshrc file
 export LANG=en_US.UTF-8
 export LC_ALL="en_US.UTF-8"
 ```
+
+https://github.com/CocoaPods/CocoaPods/issues/9757
