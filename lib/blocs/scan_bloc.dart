@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'file:///C:/dev/src/firebase_mlv/lib/events/scan_event.dart';
-import 'file:///C:/dev/src/firebase_mlv/lib/states/scan_state.dart';
+import 'package:firebasescantextapp/events/scan_event.dart';
+import 'package:firebasescantextapp/states/scan_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';

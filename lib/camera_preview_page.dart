@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
-import 'file:///C:/dev/src/firebase_mlv/lib/blocs/scan_bloc.dart';
-import 'file:///C:/dev/src/firebase_mlv/lib/events/scan_event.dart';
-import 'file:///C:/dev/src/firebase_mlv/lib/states/scan_state.dart';
+import 'package:firebasescantextapp/events/scan_event.dart';
+import 'package:firebasescantextapp/states/scan_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'blocs/scan_bloc.dart';
 
 class CameraPreviewPage extends StatefulWidget {
   final CameraController cameraController;

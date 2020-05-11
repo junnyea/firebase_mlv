@@ -1,5 +1,4 @@
 import 'package:firebasescantextapp/blocs/camera_bloc.dart';
-import 'package:firebasescantextapp/blocs/scan_bloc.dart';
 import 'package:firebasescantextapp/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -2,10 +2,9 @@ import 'package:camera/camera.dart';
 import 'package:firebasescantextapp/events/camera_event.dart';
 import 'package:firebasescantextapp/states/camera_state.dart';
 import 'blocs/camera_bloc.dart';
-import 'file:///C:/dev/src/firebase_mlv/lib/blocs/scan_bloc.dart';
-import 'file:///C:/dev/src/firebase_mlv/lib/states/scan_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'blocs/scan_bloc.dart';
 import 'camera_preview_page.dart';
 
 class HomePage extends StatefulWidget {
