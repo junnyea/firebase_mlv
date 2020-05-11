@@ -1,7 +1,9 @@
 import 'package:camera/camera.dart';
-import 'package:firebasescantextapp/scan_bloc.dart';
-import 'package:firebasescantextapp/scan_event.dart';
-import 'package:firebasescantextapp/scan_state.dart';
+import 'package:firebasescantextapp/events/camera_event.dart';
+import 'package:firebasescantextapp/states/camera_state.dart';
+import 'blocs/camera_bloc.dart';
+import 'file:///C:/dev/src/firebase_mlv/lib/blocs/scan_bloc.dart';
+import 'file:///C:/dev/src/firebase_mlv/lib/states/scan_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'camera_preview_page.dart';
@@ -14,11 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
   CameraController _cameraController;
-
-
 
   @override
   void dispose() {
@@ -33,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: BlocListener<ScanBloc, ScanState>(
+      body: BlocListener<CameraBloc, CameraState>(
         listener: (context, state){
           print('home listener state ' + state.toString());
           if(state is CameraInitFailed){
@@ -71,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                 ));
           }
         },
-        child: BlocBuilder<ScanBloc, ScanState>(
+        child: BlocBuilder<CameraBloc, CameraState>(
           builder: (context, state) {
             print('home child state ' + state.toString());
 
@@ -104,6 +102,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _initCamera(BuildContext context) {
-    BlocProvider.of<ScanBloc>(context).add(CameraInit());
+
+    BlocProvider.of<CameraBloc>(context).add(CameraInit());
   }
 }

@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
-import 'package:firebasescantextapp/scan_bloc.dart';
-import 'package:firebasescantextapp/scan_event.dart';
-import 'package:firebasescantextapp/scan_state.dart';
+import 'file:///C:/dev/src/firebase_mlv/lib/blocs/scan_bloc.dart';
+import 'file:///C:/dev/src/firebase_mlv/lib/events/scan_event.dart';
+import 'file:///C:/dev/src/firebase_mlv/lib/states/scan_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -82,8 +82,6 @@ class _CameraPreviewPageState extends State<CameraPreviewPage> {
   }
 
   Future<void> _showOutput(List<String> outputLines) async {
-
-    print('start show alert dialog');
     var message = '';
     var title = '';
     if(outputLines == null || outputLines.length ==0){
@@ -93,7 +91,9 @@ class _CameraPreviewPageState extends State<CameraPreviewPage> {
     else{
       var buffer = new StringBuffer();
       for (var line in outputLines) {
-        buffer.write(line + '\n');
+        buffer.write('[Block]\n');
+        buffer.write(line.trim().replaceAll(' ', ''));
+        buffer.write('\n\n');
       }
       message = buffer.toString();
       title = 'Success';
@@ -109,6 +109,7 @@ class _CameraPreviewPageState extends State<CameraPreviewPage> {
             child: ListBody(
               children: <Widget>[
                 Text('Scan output'),
+                Text(' '),
                 Text(message),
               ],
             ),
@@ -124,7 +125,5 @@ class _CameraPreviewPageState extends State<CameraPreviewPage> {
         );
       },
     );
-
-    print('end show alert dialog');
   }
 }

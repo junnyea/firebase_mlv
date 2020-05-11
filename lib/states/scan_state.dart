@@ -12,15 +12,6 @@ abstract class ScanState extends Equatable{
 
 class DefaultState extends ScanState{}
 
-class CameraInitInProgress extends ScanState{}
-
-class CameraInitSuccess extends ScanState{
-  final CameraController cameraController;
-  const CameraInitSuccess({@required this.cameraController});
-}
-
-class CameraInitFailed extends ScanState{}
-
 class ScanInProgress extends ScanState{}
 
 class ScanSuccess extends ScanState{

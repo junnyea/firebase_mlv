@@ -1,10 +1,7 @@
-
 import 'dart:io';
-
-import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:firebasescantextapp/scan_event.dart';
-import 'package:firebasescantextapp/scan_state.dart';
+import 'file:///C:/dev/src/firebase_mlv/lib/events/scan_event.dart';
+import 'file:///C:/dev/src/firebase_mlv/lib/states/scan_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -16,51 +13,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
   @override
   Stream<ScanState> mapEventToState(event) async*{
-
-    if(event is CameraInit){
-      try{
-
-        print(1);
-
-        yield CameraInitInProgress();
-
-
-        print(2);
-
-        // Obtain a list of the available cameras on the device.
-        final cameras = await availableCameras();
-
-        print(3);
-
-        // Get a specific camera from the list of available cameras.
-        final backCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
-
-        print(4);
-
-        // To display the current output from the Camera,
-        // create a CameraController.
-        var controller = CameraController(
-          // Get a specific camera from the list of available cameras.
-          backCamera,
-          // Define the resolution to use.
-          ResolutionPreset.max,
-        );
-
-        print(5);
-
-        // Next, initialize the controller. This returns a Future.
-        await controller.initialize();
-
-        print(6);
-
-        await Future.delayed(const Duration(seconds: 1));
-        yield CameraInitSuccess(cameraController: controller);
-      }
-      catch(error){
-        yield CameraInitFailed();
-        print(error);
-      }
-    }
 
     if(event is Scan){
       try{
@@ -108,14 +60,16 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         //String text = visionText.text;
         for (TextBlock block in visionText.blocks) {
 
-          for (TextLine line in block.lines) {
+          final String text = block.text;
+          outputLines.add(text);
+          //for (TextLine line in block.lines) {
 
-            outputLines.add(line.text);
+            //outputLines.add(line.text);
             // Same getters as TextBlock
             //for (TextElement element in line.elements) {
               // Same getters as TextBlock
             //}
-          }
+          //}
         }
 
         print(17);

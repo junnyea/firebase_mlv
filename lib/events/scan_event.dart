@@ -9,7 +9,6 @@ abstract class ScanEvent extends Equatable{
   List<Object> get props => [];
 }
 
-class CameraInit extends ScanEvent {}
 class Scan extends ScanEvent {
   final CameraController cameraController;
 

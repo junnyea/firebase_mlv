@@ -43,5 +43,7 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
     <string>The app required to access your camera.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>The app required to access your mic.</string>
 </dict>
 </plist>

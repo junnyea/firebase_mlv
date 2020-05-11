@@ -1,5 +1,6 @@
+import 'package:firebasescantextapp/blocs/camera_bloc.dart';
+import 'package:firebasescantextapp/blocs/scan_bloc.dart';
 import 'package:firebasescantextapp/home_page.dart';
-import 'package:firebasescantextapp/scan_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,10 +17,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider(
-          create: (context) => ScanBloc(),
-          child: HomePage()
-      ),
+      home:  MultiBlocProvider(
+        providers: [
+          BlocProvider<CameraBloc>(
+            create: (BuildContext context) => CameraBloc(),
+          ),
+        ],
+        child:  HomePage(),
+      )
     );
   }
 }
