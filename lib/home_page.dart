@@ -1,11 +1,8 @@
-import 'package:camera/camera.dart';
-import 'package:firebasescantextapp/events/camera_event.dart';
-import 'package:firebasescantextapp/states/camera_state.dart';
-import 'blocs/camera_bloc.dart';
+import 'package:firebasescantextapp/states/scan_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/scan_bloc.dart';
-import 'camera_preview_page.dart';
+import 'events/scan_event.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -15,25 +12,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  CameraController _cameraController;
-
-  @override
-  void dispose() {
-    // Dispose of the controller when the widget is disposed.
-    _cameraController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: BlocListener<CameraBloc, CameraState>(
-        listener: (context, state){
-          print('home listener state ' + state.toString());
-          if(state is CameraInitFailed){
+      body: BlocListener<ScanBloc, ScanState>(
+        listener: (context, state) async {
+          if(state is ScanInProgress){
+            Scaffold.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.blue,
+                  content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Scanning...'),
+                      CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+          }
+          if(state is ScanSuccess) {
+            await _showOutput(state.outputLines);
+          }
+          if(state is ScanFailed) {
             Scaffold.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -42,40 +50,18 @@ class _HomePageState extends State<HomePage> {
                   content: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Set up failed. Please contact the administrator.'),
-                      CircularProgressIndicator(),
+                      Text('Scan failed.'),
+                      CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
                     ],
                   ),
                 ),
               );
           }
-          if(state is CameraInitSuccess) {
-            _cameraController = state.cameraController;
-
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        MultiBlocProvider(
-                          providers: [
-                            BlocProvider<ScanBloc>(
-                              create: (BuildContext context) => ScanBloc(),
-                            ),
-                          ],
-                          child: CameraPreviewPage(
-                              cameraController: _cameraController),
-                        )
-                ));
-          }
         },
-        child: BlocBuilder<CameraBloc, CameraState>(
+        child: BlocBuilder<ScanBloc, ScanState>(
           builder: (context, state) {
-            print('home child state ' + state.toString());
-
-            if(state is CameraInitInProgress){
-              return Center(child: CircularProgressIndicator(),);
-            }
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(50.0),
                   child: FloatingActionButton(
-                    onPressed: () => _initCamera(context),
+                    onPressed: () => _scan(context),
                     tooltip: 'Scan',
                     child: Icon(Icons.camera_alt),
                   ),
@@ -100,8 +86,54 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _initCamera(BuildContext context) {
+  Future<void> _showOutput(List<String> outputLines) async {
+    var message = '';
+    var title = '';
+    if(outputLines == null || outputLines.length ==0){
+      message = 'no output';
+      title = 'Opps';
+    }
+    else{
+      var buffer = new StringBuffer();
+      for (var line in outputLines) {
+        buffer.write('[Block]\n');
+        buffer.write(line.trim().replaceAll(' ', ''));
+        buffer.write('\n\n');
+      }
+      message = buffer.toString();
+      title = 'Success';
+    }
 
-    BlocProvider.of<CameraBloc>(context).add(CameraInit());
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Scan output'),
+                Text(' '),
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _scan(BuildContext context) {
+
+    BlocProvider.of<ScanBloc>(context).add(Scan());
   }
 }
